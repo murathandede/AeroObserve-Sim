@@ -1,0 +1,50 @@
+{
+  "contractVersion": 1,
+  "recording": {
+    "id": "tum-rgbd-freiburg1-desk",
+    "name": "TUM RGB-D — freiburg1_desk (10 özgün dosyalık yerel örnek)",
+    "provenance": "real",
+    "source": {
+      "title": "RGB-D SLAM Dataset and Benchmark — freiburg1_desk",
+      "url": "https://cvg.cit.tum.de/data/datasets/rgbd-dataset/download"
+    },
+    "license": {
+      "status": "known",
+      "value": "CC BY 4.0",
+      "evidence": "https://cvg.cit.tum.de/data/datasets/rgbd-dataset#license ; https://creativecommons.org/licenses/by/4.0/legalcode"
+    }
+  },
+  "format": {
+    "status": "known",
+    "value": "TGZ'den değiştirilmeden seçilen 640x480 8-bit RGB PNG, 640x480 16-bit tek kanallı derinlik PNG ve özgün zaman damgalı TXT listeleri/ölçümleri",
+    "evidence": "https://cvg.cit.tum.de/data/datasets/rgbd-dataset/file_formats ; docs/datasets.md"
+  },
+  "acquisition": {
+    "instructions": "https://cvg.cit.tum.de/data/datasets/rgbd-dataset/download sayfasındaki freiburg1_desk TGZ arşivini indir; SHA-256 E983D6830916E66DC4A46A71368046B149B283DE87769690E7AA4E0B9483530C ile karşılaştır; docs/datasets.md içindeki 10 arşiv üyesini data/local/tum-rgbd-freiburg1-desk/ altına değişiklik yapmadan aç. TXT listeleri tam kayda aittir; küçük örnekte listelenen tüm PNG'ler yoktur. Lisans CC BY 4.0 ve TUM IROS 2012 atfı gerektirir. Tam komutlar ve tekil dosya hash'leri docs/datasets.md içindedir.",
+    "files": [
+      "rgbd_dataset_freiburg1_desk/accelerometer.txt",
+      "rgbd_dataset_freiburg1_desk/depth.txt",
+      "rgbd_dataset_freiburg1_desk/depth/1305031453.374112.png",
+      "rgbd_dataset_freiburg1_desk/depth/1305031463.278737.png",
+      "rgbd_dataset_freiburg1_desk/depth/1305031473.190828.png",
+      "rgbd_dataset_freiburg1_desk/groundtruth.txt",
+      "rgbd_dataset_freiburg1_desk/rgb.txt",
+      "rgbd_dataset_freiburg1_desk/rgb/1305031452.791720.png",
+      "rgbd_dataset_freiburg1_desk/rgb/1305031462.995550.png",
+      "rgbd_dataset_freiburg1_desk/rgb/1305031473.196069.png"
+    ]
+  },
+  "timing": {
+    "kind": "unknown",
+    "timeBase": null,
+    "description": "Bu v1 manifesti RGB, derinlik, referans yörünge ve ivmeölçer için ayrı zaman tanımı tutamaz. RGB/depth TXT listeleri kaynakta değiştirilmemiş sayısal damgalar taşır; kesin cihaz/pozlama saati bilinmiyor. Groundtruth TXT damgası Unix epoch saniyesidir ve kaynakta yaklaşık 20 ms referans düzeltmesi yapılmıştır. Bu örnekte FPS, dosya adı veya kare sırasından türetilmiş zaman ve RGB-depth kare eşlemesi yoktur. Ayrıntı: docs/datasets.md.",
+    "nominalFps": { "status": "unknown" }
+  },
+  "radiometry": {
+    "status": "unavailable",
+    "unit": null,
+    "evidence": "https://cvg.cit.tum.de/data/datasets/rgbd-dataset/file_formats ; RGB görünür görüntü, derinlik uzaklık ölçümüdür (değer/5000 metre); sıcaklık/radyometrik veri değildir."
+  },
+  "citation": "J. Sturm, N. Engelhard, F. Endres, W. Burgard, D. Cremers, A Benchmark for the Evaluation of RGB-D SLAM Systems, IROS, 2012. https://cvg.cit.tum.de/_media/spezial/bib/sturm12iros.pdf",
+  "versionOrAccessDate": "Erişim: 2026-10-18; kaynakta ayrı veri seti sürümü belirtilmedi"
+}
