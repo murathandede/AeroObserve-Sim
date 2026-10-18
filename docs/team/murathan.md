@@ -1,13 +1,27 @@
-> Güncel görev kapsamı için [ortak proje çerçevesi](../project-context.md) bölüm 13 esas alınır. Aşağıdaki metin sentetik başlangıç demosunun önceki görev kapsamını belgeler.
+﻿# Murathan — bütünleştirme ve oynatma
 
-# Murathan — bütünleştirme
+- **Değiştirebileceğin dosyalar:** `src/app/`, `src/playback/`, `src/main.tsx`, `src/demo/`, `tests/recording.test.ts`, README ve bütünleştirme belgeleri.
+- **Ortak sahiplik:** `src/shared/types.ts`, package/lockfile ve yapılandırmalar ekip koordinasyonuyla değiştirilir.
+- **Başlama:** `npm ci`, `npm run dev`, `npm run example:reader`.
+- **Ortak tipler:** `RecordingBinding`, `RecordingReader` ve tüm kayıt sözleşmesi.
+- **Girdi:** Ahmet'in manifesti, Efe'nin okuyucu/kalite çıktısı, Derviş'in props tabanlı ekranı.
+- **Çıktı:** tek oynatma denetleyicisi ve doğrulanmış uygulama bağlantısı.
 
-- **Kapsam:** Uygulama bütünleştirmesi, ortak sözleşme, değerlendirme, ana README.
-- **Dosya sahipliği:** `src/app/`, `src/shared/types.ts`, `src/evaluation/`, `README.md`, `docs/architecture.md`, bütünleştirme kontrolleri.
-- **Girdi:** Dünya ve sensör kareleri, teslim edilmiş gözlemler, ekip değişiklikleri.
-- **Çıktı:** Tek saatle çalışan uygulama, tanımlı ölçümler, güncel kullanım belgesi.
-- **Tamamlanma ölçütleri:** Build/typecheck/test geçer; ölçümler gerçek veriden hesaplanır; boş metrik `—` olur; modüller sözleşmeye uyar; sıfırlama bütün durumları temizler.
+## Küçük kullanım örneği
 
-Başlangıç: `src/app/App.tsx`, `src/evaluation/metrics.ts`, `tests/simulation.test.ts`. Sonraki iş: gözlem eşleştirmesini ekipçe tanımlayıp konum hatasını eklemek.
+```ts
+// src/app/recordingBinding.ts — mevcut çalışan bağlantı
+import type { RecordingBinding } from '../shared/types';
+import { exampleBinding } from '../demo/recording/example';
+export const recordingBinding: RecordingBinding = exampleBinding;
+```
 
-Ortak veri sözleşmesi ekip koordinasyonu olmadan değiştirilmemelidir. Sözleşme değişikliklerini diğer üç üye ile birlikte değerlendirin.
+Gerçek okuyucu geldiğinde createReader, input ve analyze değerlerini burada bağla. UI gerçek okuyucu import etmez. Yerel dosya seçiminden Blob haritası oluşturma sonraki bütünleştirme işidir. Metadata kalite örneği tüm kayıt analizini temsil etmez.
+
+## Tamamlanma ölçütleri
+
+Tek oynatma saati, geç dönen karelerin elenmesi, close/unmount cleanup, eski simülasyonun korunması; build/typecheck/test; gerçek veri varsa dosya → okuyucu → UI akışının ayrıca doğrulanması; ortak başlangıç SHA'sının ekibe verilmesi.
+
+## Teslim
+
+Ahmet, Efe ve Derviş'e aynı başlangıç SHA'sını ve kendi görev dosyasını ilet. Rutin modül içi kararları onların vermesine izin ver. Sözleşme değişikliğinde etkilenmiş üyelerle birlikte karar ver. Kullanıcı açıkça istemedikçe commit/push/merge yapma.

@@ -1,5 +1,15 @@
 # Mimari ve ortak sözleşme
 
+## Yeni kayıt modülü başlangıcı
+
+Ana giriş `src/main.tsx`, kayıt ekranını `RecordingWorkspace` ile açar; `?view=simulation` eski App'i korur. Yeni akış: Ahmet'in manifesti → `RecordingInput` → `RecordingReader` → metadata/kare → `useRecording` → `RecordingWorkbench`. `src/app/recordingBinding.ts` değiştirilebilir tek bağlantı noktasıdır.
+
+`src/shared/types.ts` tek tip dosyasıdır. [Kayıt sözleşmesi](data-contract.md), [okuyucu yaşam döngüsü](readers.md), [ekip dal düzeni](git-workflow.md). Efe'nin `analyzeMetadata` örneği yalnızca metadata eksiklerini bildirir. Gerçek dosya okuyucusu yoktur. `src/demo/recording/` yerel SVG'leri açıkça sentetik sunar.
+
+Tek oynatma denetleyicisi `src/playback/useRecording.ts` içindedir. 1× hızda kare başına 1 saniyelik **gösterim temposu** kullanır; zaman damgası üretmez. Kare yüklenince sonraki gösterim zamanlayıcısı kurulur; yavaş okuyucuda kare atlanmaz. Duraklatma, arama, kapatma ve unmount zamanlayıcıyı temizler. Geç dönen eski async sonuçlar elenir. Tekrar açma yeni reader oturumudur; close bekleyen işleri iptal etmelidir.
+
+## Korunan eski simülasyon mimarisi
+
 Bu başlangıç modülleri **örnek uygulamadır**; ekip tarafından genişletilecektir. Backend, gerçek sensör ve dış veri kaynağı yoktur.
 
 Akış: `scenarios/default.json` → `simulation/world.ts` → `simulation/engine.ts` → `sensors/example.ts` → teslim kuyruğu → `evaluation/metrics.ts` → `app/App.tsx` ve `ui/Scene.tsx`.

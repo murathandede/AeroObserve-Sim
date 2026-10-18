@@ -1,13 +1,32 @@
-> Güncel görev kapsamı için [ortak proje çerçevesi](../project-context.md) bölüm 13 esas alınır. Aşağıdaki metin sentetik başlangıç demosunun önceki görev kapsamını belgeler.
+﻿# Efe — okuyucu ve kalite analizi
 
-# Efe — örnek sensörler
+- **Değiştirebileceğin dosyalar:** `src/data/`, `src/quality/`, `docs/readers.md`, `tests/reader-*.test.ts`, `tests/quality-*.test.ts`.
+- **Dal:** `feat/recording-reader`.
+- **Başlama:** `npm ci`, `npm run example:reader`, `npm test`.
+- **Ortak tipler:** `RecordingReader`, `RecordingInput`, `RecordingMetadata`, `FrameRecord`, `FrameTime`, `ReaderResult`, `ReaderError`, `QualityReport`.
+- **Girdi:** Ahmet'in biçim belgesi, manifesti ve küçük gerçek örneği.
+- **Çıktı:** ortak arayüzü uygulayan okuyucu, gerçek metadata, indeksli kareler, yapılandırılmış hatalar ve kanıta dayalı kalite bulguları.
 
-- **Kapsam:** Sentetik gürültü, gecikme, eksik veri ve kesinti.
-- **Dosya sahipliği:** `src/sensors/` ve ilgili sensör testleri; teslim kuyruğu için Ahmet ile koordinasyon.
-- **Girdi:** WorldFrame, deterministik rastgele sayı kaynağı ve erişilebilirlik.
-- **Çıktı:** SensorObservation dizisi ve ThermalFrame; teslim zamanları üretimden sonra, yoğunluklar 0–1 aralığında.
-- **Tamamlanma ölçütleri:** Erken teslim yok; aynı seed aynı gözlemleri verir; kesintide yeni gözlem üretilmez; eksik veri açıkça modellenir; boş/kullanılamıyor ayrımı korunur; modeller fiziksel ölçüm gibi sunulmaz.
+## Küçük kullanım örneği
 
-Başlangıç: `src/sensors/example.ts`. Bu örnek uygulamadır; sonraki iş ayarlanabilir gürültü/gecikme profilleri ve bağımsız sensör kesintileridir. Quality alanı fiziksel güven skoru değildir.
+```ts
+import type { RecordingReader } from '../shared/types';
+import { SyntheticRecordingReader } from '../demo/recording/reader';
+import { exampleInput } from '../demo/recording/example';
+import { withFirstFrame } from './readFirstFrame';
 
-Ortak veri sözleşmesi ekip koordinasyonu olmadan değiştirilmemelidir. Zaman alanlarını Murathan ve Ahmet ile birlikte değerlendirin.
+const reader: RecordingReader = new SyntheticRecordingReader();
+await withFirstFrame(reader, exampleInput, (metadata, frame) => {
+  console.log(metadata.frameCount, frame.index, frame.time);
+});
+```
+
+Bu örneğin çalışan hali `npm run example:reader` komutudur. Gerçek biçim seçilmeden tahmini okuyucu yazma. Yeni okuyucunu kendi dizininde ekle; sentetik fikstürü değiştirme.
+
+## Tamamlanma ölçütleri
+
+open/getMetadata/getFrame/close sözleşmesine uyum; eksik/bozuk/desteklenmeyen dosyada anlaşılır hata; bilinmeyen zamanı koruma; belgelenmemiş sıcaklık üretmeme; indeks sınırları; close ile blob URL ve bekleyen iş temizliği; tekrar açma/kapama testleri. Kalite bulgularında kural ve kapsam açık. `npm run typecheck`, `npm test`, `npm run build` geçer.
+
+## Doğrudan teslim
+
+Ahmet'ten biçim ve küçük örneği doğrudan al. **Derviş'e** okuyucu export yolu, RecordingInput kurulum örneği, kare erişimi, hata/cleanup davranışı ve test komutunu doğrudan gönder. Murathan'a factory ve manifest bağlantısını ilet; UI dosyalarını değiştirmen gerekmez. Ortak tip değişikliğini tüm tüketicilerle koordine et.

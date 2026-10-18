@@ -1,0 +1,21 @@
+{
+  "contractVersion": 1,
+  "recording": {
+    "id": "replace-with-recording-id",
+    "name": "Kaynak seçimi bekleniyor",
+    "provenance": "real",
+    "source": { "title": "Bilinmiyor", "url": null },
+    "license": { "status": "unknown" }
+  },
+  "format": { "status": "unknown" },
+  "acquisition": { "instructions": "Kaynak ve lisans doğrulandıktan sonra küçük örneğin edinme adımlarını yazın.", "files": [] },
+  "timing": {
+    "kind": "unknown",
+    "timeBase": null,
+    "description": "Özgün zaman damgaları veya türetme yöntemi henüz belgelenmedi.",
+    "nominalFps": { "status": "unknown" }
+  },
+  "radiometry": { "status": "unknown", "unit": null, "evidence": "Radyometrik veri varlığı henüz araştırılmadı." },
+  "citation": null,
+  "versionOrAccessDate": null
+}

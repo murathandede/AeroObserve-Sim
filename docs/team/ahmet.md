@@ -1,13 +1,24 @@
-> Güncel görev kapsamı için [ortak proje çerçevesi](../project-context.md) bölüm 13 esas alınır. Aşağıdaki metin sentetik başlangıç demosunun önceki görev kapsamını belgeler.
+﻿# Ahmet — veri kataloğu ve manifest
 
-# Ahmet — sentetik dünya
+- **Değiştirebileceğin dosyalar:** `docs/datasets.md`, `data/manifests/`. Yerel ham örnekleri `data/local/` altında tut; Git'e koyma.
+- **Dal:** `feat/dataset-catalog`.
+- **Başlama:** ortak başlangıç SHA'sından dal aç; `npm ci`, `npm run dev`. Katalog için uygulamanın çalışması zorunlu değil.
+- **Ortak tipler:** `DatasetManifest`, `RecordingInfo`, `Known<T>`; tek kaynak `src/shared/types.ts`.
+- **Girdi:** resmî kaynak belgesi, lisans koşulları ve küçük gerçek termal kayıt.
+- **Çıktı:** kaynak kataloğu, tamamlanmış JSON manifest, biçim belgesi ve tekrar uygulanabilir edinme talimatı.
 
-- **Kapsam:** Genel hareketli nesneler ve tekrar üretilebilir senaryolar.
-- **Dosya sahipliği:** `src/simulation/`, `scenarios/`, ilgili dünya testleri.
-- **Girdi:** SimConfig, seed, simülasyon zamanı, senaryo parametreleri.
-- **Çıktı:** WorldFrame ve deterministik dünya olayları; soyut sahne birimleriyle konum/hız.
-- **Tamamlanma ölçütleri:** Aynı seed ve zaman aynı sonucu verir; render sıklığı sonucu değiştirmez; sınır davranışı tanımlıdır; sıfırlama PRNG ve saati geri kurar; yeni senaryolar testle doğrulanır.
+## Küçük kullanım örneği
 
-Başlangıç: `src/simulation/world.ts`, `src/simulation/engine.ts`, `scenarios/default.json`. Bunlar örnek uygulamadır; sonraki iş senaryo şeması, doğrulama ve farklı hareket örnekleridir. Tick süresi şu an motor içinde 0.1 s olarak sabittir; JSON'daki açıklayıcı alanla birlikte koordine edilmelidir.
+```powershell
+Copy-Item data/manifests/template.json data/manifests/secilen-kayit.json
+```
 
-Ortak veri sözleşmesi ekip koordinasyonu olmadan değiştirilmemelidir. Efe ile örnekleme zamanı; Murathan ile saat sahipliği üzerinde uzlaşın.
+Şablon açıklamalarını `data/manifests/README.md` üzerinden izleyerek doldur. Bilinmeyen zaman için `timing.kind: "unknown"`, bilinmeyen lisans için `license: { "status": "unknown" }` bırak. Kaynak doğrulanmadan kayıt hazırmış gibi işaretleme.
+
+## Tamamlanma ölçütleri
+
+Kaynak URL'si, başlık, sürüm/erişim tarihi, atıf, lisans kanıtı ve dosya listesi belgeli; küçük örnek edinilebilir; gerçek biçim açıklanmış; radyometri/zaman bilgisi kanıta dayalı. Bilinmeyenler açık. Ham dosyalar Git dışında. JSON geçerli ve sözleşmeye uygun. `npm run typecheck` ve `npm run build` geçer.
+
+## Doğrudan teslim
+
+**Efe'ye** manifest yolu, biçim belgesi, küçük örneğin edinme talimatı, göreli dosya listesi ve varsa doğrulama özetini doğrudan gönder. Her adımda Murathan'ı aracı yapman gerekmez. Ortak sözleşmeyi değiştirmek gerekirse Efe ve Murathan ile koordine et; başka üyenin dosyasını değiştirme.

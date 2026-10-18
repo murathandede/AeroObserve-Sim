@@ -1,10 +1,23 @@
 # AeroObserve-Sim
 
-> **Güncel proje yönü:** [AeroObserve ortak proje bağlamı ve araştırma çerçevesi](docs/project-context.md) ekip için esas belgedir. Hedef; gerçek sensör kayıtlarını yerel açmak, oynatmak, metadata/veri kalitesini incelemek ve rapor dışa aktarmaktır. Bu repodaki mevcut uygulama yalnızca sentetik başlangıç demosudur; gerçek kayıt okuyucusu ve raporlama henüz uygulanmamıştır. Aşağıdaki özellikler ve eski görev dosyaları bu başlangıç sürümünü anlatır.
+> **Güncel proje yönü:** [AeroObserve ortak proje bağlamı ve araştırma çerçevesi](docs/project-context.md) ekip için esas belgedir. Hedef; gerçek termal kayıtları yerel açmak, oynatmak, metadata/veri kalitesini incelemek ve rapor dışa aktarmaktır. Ortak modül başlangıcı hazırdır; gerçek veri kaynağı seçilmedi ve gerçek okuyucu henüz uygulanmadı. Yerel geliştirme çizimleri gerçek kayıt değildir.
 
 Güncel görev dağılımı: **Murathan:** sistem bütünleştirme ve ortak sözleşme; **Ahmet:** gerçek veri araştırması, lisans ve manifest; **Efe:** okuyucular ve kalite analizi; **Derviş:** arayüz ve oynatıcı. Kişisel görev kapsamı belirlenmeden tüm ekip işleri üstlenilmez; ortak sözleşme tek taraflı değiştirilmez.
 
 Tarayıcıda çalışan, dört kişilik öğrenci ekibi için sentetik sensör gözlem ve veri kalitesi laboratuvarı. React + TypeScript + Vite + Canvas; backend, API anahtarı, GPU veya ücretli servis gerektirmez. Tüm veriler sentetiktir.
+
+## Ekip için ortak başlangıç
+
+Ana sayfa artık **kayıt geliştirme alanı**: Kaydı aç → üç yerel SVG → kareler arasında gezinme/oynatma → metadata ve sınırlı kalite bulguları. Görseller sürekli **GELİŞTİRME ÖRNEĞİ — SENTETİK** etiketlidir. Zaman bilinmiyor; sıcaklık alanı yok. Gösterim temposu kayıt zamanı gibi kullanılmaz. İnternet gerektiren varlık yoktur; yalnızca ilk paket kurulumu internet gerektirebilir.
+
+- Tek ortak tip dosyası: `src/shared/types.ts`; [sözleşme](docs/data-contract.md).
+- Ahmet'in [manifest şablonu](data/manifests/template.json) ve [alan açıklamaları](data/manifests/README.md).
+- Efe'nin [okuyucu arayüzü ve kullanım örneği](docs/readers.md); `src/data/readFirstFrame.ts`.
+- Derviş'in bağımsız ekranı: `src/ui/RecordingWorkbench.tsx`; veri bağlantısı `src/app/recordingBinding.ts` içinde değişir.
+- [Git çalışma düzeni](docs/git-workflow.md): herkes bu değişiklikler yayımlandıktan sonra aynı commit SHA'sından kendi dalını açar.
+- [Yeni başlangıç kontrol raporu](docs/team-bootstrap-verification.md).
+
+Önceki simülasyon taşınmadı: `?view=simulation` adresinden açılır. Eski dünya/sensör modülleri yeni gerçek kayıt okuyucusu değildir.
 
 ## Kurulum
 
@@ -21,11 +34,12 @@ Terminaldeki yerel adresi açın (varsayılan http://127.0.0.1:5173). PowerShell
 npm run typecheck
 npm test
 npm run build
+npm run example:reader
 ```
 
 Build çıktısı `dist/` altına yazılır; sürüm kontrolüne alınmaz. `package-lock.json` kurulum sürümlerini sabitler; sonraki temiz kurulumlarda `npm ci` kullanılabilir.
 
-## Çalışan başlangıç özellikleri
+## Korunan eski simülasyon özellikleri
 
 - Seed'li altı genel hareketli nesne, sınırda yansıma ve sabit 10 Hz simülasyon saati.
 - Başlat/duraklat, sıfırla, 0.5×–4× oynatma; seed sıfırlamayla uygulanır.
@@ -41,16 +55,16 @@ Başlat’a basın. İlk gözlemler 0.7 s ve sonrasında teslim edilir. 20–28 
 
 | Üye | Sorumluluk | Görev dosyası |
 | --- | --- | --- |
-| Murathan | Bütünleştirme, sözleşme, değerlendirme, README | [murathan.md](docs/team/murathan.md) |
-| Ahmet | Dünya ve tekrar üretilebilir senaryolar | [ahmet.md](docs/team/ahmet.md) |
-| Efe | Sensör gürültüsü, gecikme, eksik veri, kesinti | [efe.md](docs/team/efe.md) |
-| Derviş | Arayüz, Canvas ve olay günlüğü | [dervis.md](docs/team/dervis.md) |
+| Murathan | src/app/, src/playback/, sözleşme ve bütünleştirme | [murathan.md](docs/team/murathan.md) |
+| Ahmet | docs/datasets.md, data/manifests/ | [ahmet.md](docs/team/ahmet.md) |
+| Efe | src/data/, src/quality/ | [efe.md](docs/team/efe.md) |
+| Derviş | src/ui/ | [dervis.md](docs/team/dervis.md) |
 
 Ortak veri sözleşmesi ekip koordinasyonu olmadan değiştirilmemelidir. Başlangıç modülleri örnek uygulamadır. [Mimari ve zaman kuralları](docs/architecture.md), [sınırlamalar](docs/limitations.md).
 
 ## Planlanan işler
 
-Senaryo seçimi ve doğrulaması, ayarlanabilir sensör parametreleri, nesne-gözlem eşleştirme ve konum hatası, veri dışa aktarma, daha geniş erişilebilirlik ve tarayıcı testleri. Bunlar mevcut sürümde uygulanmış değildir.
+Belgeli gerçek termal kaynağın seçimi, lisans doğrulama, biçime özel okuyucu, yerel dosya seçim akışı, tam kayıt kalite analizi ve JSON rapor indirme. Kaynak zamanına göre oynatma sonraki geliştirmedir; mevcut denetleyici açıkça etiketlenmiş gösterim temposu kullanır. Tarayıcı etkileşim/erişilebilirlik testleri de tamamlanmalıdır. Bu özellikler uygulanmış gibi sunulmaz.
 
 ## Bu simülasyon neyi kanıtlamaz?
 
