@@ -1,5 +1,11 @@
-import type { RecordingBinding } from '../shared/types';
+import type { RecordingBinding, RecordingInput } from '../shared/types';
+import { TumRecordingReader, type TumStream } from '../data';
+import { analyzeMetadata } from '../quality';
 import { exampleBinding } from '../demo/recording/example';
 
-// Only composition point to replace when Efe delivers a real reader and Ahmet a manifest.
+// The original synthetic entry remains an explicit user choice.
 export const recordingBinding: RecordingBinding = exampleBinding;
+
+export function createTumRecordingBinding(input: RecordingInput, stream: TumStream): RecordingBinding {
+  return { input, createReader: () => new TumRecordingReader({ stream, mode: 'manifest-subset' }), analyze: analyzeMetadata };
+}
